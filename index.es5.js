@@ -83,19 +83,21 @@ let Man = (_dec = addFly(true), _dec2 = decorateDef(true), _dec(_class = (_class
     constructor(def = 2, atk = 3, hp = 3) {
         this.init(def, atk, hp);
     }
+    //@ 声明一个无需执行的装饰器  @会帮你执行    装饰在方法上 target指的是当前类的proptotype  装饰在class上target指的是类本身⭐️⭐️⭐️
 
     init(def, atk, hp) {
         this.def = def;
         this.atk = atk;
         this.hp = hp;
     }
+
     test() {
         console.log('i am test');
     }
     toString() {
         return `防御力: ${this.def} 攻击力:${this.atk} 血量:${this.hp}`;
     }
-}, (_applyDecoratedDescriptor(_class2.prototype, 'init', [_dec2, decorateAtk], Object.getOwnPropertyDescriptor(_class2.prototype, 'init'), _class2.prototype)), _class2)) || _class);
+}, (_applyDecoratedDescriptor(_class2.prototype, 'test', [_dec2, decorateAtk], Object.getOwnPropertyDescriptor(_class2.prototype, 'test'), _class2.prototype)), _class2)) || _class);
 
 
 const tony = new Man();
