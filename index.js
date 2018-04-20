@@ -54,7 +54,7 @@ class Man {
     constructor(def = 2, atk = 3, hp = 3) {
         this.init(def, atk, hp)
     }
-    //@ 声明一个无需执行的装饰器  @会帮你执行
+    //@ 声明一个无需执行的装饰器  @会帮你执行    装饰在方法上 target指的是当前类的proptotype  装饰在class上target指的是类本身⭐️⭐️⭐️
     @decorateDef(true)
     @decorateAtk
     init(def, atk, hp) {
