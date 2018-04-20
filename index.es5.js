@@ -1,4 +1,4 @@
-var _dec, _class, _desc, _value, _class2;
+var _dec, _dec2, _class, _desc, _value, _class2;
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
     var desc = {};
@@ -39,17 +39,19 @@ require('babel-register')({
  * @params: target 
  * 
 */
-function decorateDef(target, key, descriptor) {
-    const method = descriptor.value;
-    let moreDef = 100;
-    let ret;
-    //可看作重写init
-    descriptor.value = (...args) => {
-        args[0] += moreDef;
-        ret = method.apply(target, args);
-        return ret;
+function decorateDef(flag) {
+    return function (target, key, descriptor) {
+        const method = descriptor.value;
+        let moreDef = 100;
+        let ret;
+        //可看作重写init
+        descriptor.value = (...args) => {
+            args[0] += moreDef;
+            ret = method.apply(target, args);
+            return ret;
+        };
+        return descriptor;
     };
-    return descriptor;
 }
 
 function decorateAtk(target, key, descriptor) {
@@ -77,7 +79,7 @@ function addFly(canFly) {
     };
 }
 
-let Man = (_dec = addFly(true), _dec(_class = (_class2 = class Man {
+let Man = (_dec = addFly(true), _dec2 = decorateDef(true), _dec(_class = (_class2 = class Man {
     constructor(def = 2, atk = 3, hp = 3) {
         this.init(def, atk, hp);
     }
@@ -93,7 +95,7 @@ let Man = (_dec = addFly(true), _dec(_class = (_class2 = class Man {
     toString() {
         return `防御力: ${this.def} 攻击力:${this.atk} 血量:${this.hp}`;
     }
-}, (_applyDecoratedDescriptor(_class2.prototype, 'init', [decorateDef, decorateAtk], Object.getOwnPropertyDescriptor(_class2.prototype, 'init'), _class2.prototype)), _class2)) || _class);
+}, (_applyDecoratedDescriptor(_class2.prototype, 'init', [_dec2, decorateAtk], Object.getOwnPropertyDescriptor(_class2.prototype, 'init'), _class2.prototype)), _class2)) || _class);
 
 
 const tony = new Man();

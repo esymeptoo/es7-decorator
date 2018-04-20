@@ -9,17 +9,19 @@ require('babel-register')({
  * @params: target 
  * 
 */
-function decorateDef(target, key, descriptor) {
-    const method = descriptor.value;
-    let moreDef = 100;
-    let ret;
-    //可看作重写init
-    descriptor.value = (...args) => {
-        args[0] += moreDef;
-        ret = method.apply(target, args)
-        return ret;
+function decorateDef(flag) {
+    return function (target, key, descriptor) {
+        const method = descriptor.value;
+        let moreDef = 100;
+        let ret;
+        //可看作重写init
+        descriptor.value = (...args) => {
+            args[0] += moreDef;
+            ret = method.apply(target, args)
+            return ret;
+        }
+        return descriptor;
     }
-    return descriptor;
 }
 
 function decorateAtk(target, key, descriptor) {
@@ -52,7 +54,8 @@ class Man {
     constructor(def = 2, atk = 3, hp = 3) {
         this.init(def, atk, hp)
     }
-    @decorateDef
+    //@ 声明一个无需执行的装饰器  @会帮你执行
+    @decorateDef(true)
     @decorateAtk
     init(def, atk, hp) {
         this.def = def;
